@@ -1,0 +1,73 @@
+/// Swaps the values of two mutable references.
+fn swap(a: &mut i32, b: &mut i32) {
+    let temp;
+    temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+/// Calculates the greatest common divisor (GCD) of two integers using an iterative approach.
+///
+/// # Arguments
+///
+/// * `x` - The first integer.
+/// * `y` - The second integer.
+///
+/// # Returns
+///
+/// The GCD of `x` and `y`.
+fn euclidean_iterative(x: i32, y: i32) -> i32 {
+    let mut a = x;
+    let mut b = y;
+    let mut r = -1;
+
+    while r != 0 {
+        if a < b {
+            swap(&mut a, &mut b);
+        }
+
+        r = a % b;
+
+        if r == 0 {
+            return b;
+        } else {
+            a = b;
+            b = r;
+        }
+    }
+    return 0;
+}
+
+/// Calculates the greatest common divisor (GCD) of two integers using a recursive approach.
+///
+/// # Arguments
+///
+/// * `a` - The first integer.
+/// * `b` - The second integer.
+///
+/// # Returns
+///
+/// The GCD of `a` and `b`.
+fn euclidean_recursive(mut a: i32, mut b: i32) -> i32 {
+    if a < b {
+        swap(&mut a, &mut b);
+    }
+
+    let r = a % b;
+    if r == 0 {
+        return b;
+    }
+
+    return euclidean_recursive(b, r);
+}
+
+fn main() {
+    let x: i32 = 210;
+    let y: i32 = 45;
+
+    let mut gcd = euclidean_iterative(x, y);
+    println!("The gcd for ({}, {}) is {} using iterative", x, y, gcd);
+
+    gcd = euclidean_recursive(x, y);
+    println!("The gcd for ({}, {}) is {} using recursive", x, y, gcd);
+}
