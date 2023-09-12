@@ -1,60 +1,26 @@
-/// Swaps the values of two mutable references.
-fn swap(a: &mut i32, b: &mut i32) {
-    let temp;
-    temp = *a;
-    *a = *b;
-    *b = temp;
-}
-
-fn euclidean(mut a: i32, mut b: i32) {
-    let mut r;
-    let mut q;
-    let mut second_last_dividend: i32 = 0;
-    let mut second_last_reminder: i32 = 0;
-
-    r = a % b;
-    q = a / b;
-    
-    let mut r = -1;
-
-    while r != 0 {
-        if a < b {
-            swap(&mut a, &mut b);
-        }
-
-        r = a % b;
-
-        if r == 0 {
-            second_last_dividend = a;
-            second_last_reminder = b;
-            println!("{}", b);
-        } else {
-            a = b;
-            b = r;
-        }
-    }
-    println!("{} {}", second_last_dividend, second_last_reminder);
-    extended_euclidean(second_last_dividend, second_last_reminder);
-}
-
-fn extended_euclidean(mut a: i32, mut b: i32){
-    let mut temp;
-    let mut p;
-    let mut q;
-    let mut divisor;
-    p = 1;
-    q = 1;
-    temp = a+b;
-
-    if temp == a - b {
-        divisor_p = temp / a;
+fn extended_euclidean_recursive(a: i32, b: i32, x: &mut i32, y: &mut i32) -> i32 {
+    if a == 0 {
+        *x = 0;
+        *y = 1;
+        return b;
     }
 
-    println!("{} {} {}", temp, a, b)
+    let mut x1 = 0;
+    let mut y1 = 0;
+    let gcd = extended_euclidean_recursive(b%a, a, &mut x1, &mut y1);
+
+    *x = y1 - (b/a) * x1;
+    *y = x1;
+
+    return gcd;
 }
 
 fn main(){
-    let x: i32 = 1398;
-    let y: i32 = 324;
-    euclidean(x,y);
+    let a: i32 = 1398;
+    let b: i32 = 324;
+    let mut x=0;
+    let mut y=0;
+    let gcd;
+    gcd = extended_euclidean_recursive(a,b, &mut x, &mut y);
+    println!("({}*{}) + ({}*{}) = {}",a, x, b, y, gcd);
 }
