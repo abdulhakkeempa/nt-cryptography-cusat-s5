@@ -15,12 +15,45 @@ fn extended_euclidean_recursive(a: i32, b: i32, x: &mut i32, y: &mut i32) -> i32
     return gcd;
 }
 
+fn extended_euclidean_iterative(mut a: i32, mut b: i32) {
+    let mut x=0;
+    let mut y=0;
+
+    let mut x_k = 1;
+    let mut x_k_1 = 0;
+    let mut y_k = 0;
+    let mut y_k_1 = 1;
+
+    let mut q = 0;
+    let mut r = 0;
+
+    while b > 0 {
+        q = a / b;
+        r = a % b;
+
+        x = x_k_1 - q * x_k;
+        y = y_k_1 - q * y_k;
+
+        x_k = x_k_1;
+        x_k_1 = x;
+
+        y_k = y_k_1;
+        y_k_1 = y;
+
+        a = b;
+        b = r;
+    }
+
+    println!("{} {} {}", a, x, y);
+}
+
 fn main(){
-    let a: i32 = 1398;
-    let b: i32 = 324;
+    let a: i32 = 254;
+    let b: i32 = 44;
     let mut x=0;
     let mut y=0;
     let gcd;
     gcd = extended_euclidean_recursive(a,b, &mut x, &mut y);
     println!("({}*{}) + ({}*{}) = {}",a, x, b, y, gcd);
+    extended_euclidean_iterative(a,b);
 }
